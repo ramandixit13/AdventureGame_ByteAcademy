@@ -46,6 +46,17 @@ class move:
 		'''
 		x is constant, y is svariable
 		'''
+		if y < board_size:
+			if board[y+1][x] == 0:
+				#print("Cannot move outside the path. Make another choice.")
+			elif board[y+1][x] == 1:
+				#print("user moved up")
+				user_location[1] += 1
+			elif board[y+1][x] == 2:
+				#print("user moved up")
+				user_location[1] += 1
+		else:
+			print("Sorry! You cannot move outside the board.")
 
 
 	def right():
