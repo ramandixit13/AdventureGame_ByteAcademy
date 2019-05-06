@@ -19,6 +19,7 @@ class move:
 		we only have to consider the y coordinate
 		cause x is constant
 		'''
+		
 
 
 
