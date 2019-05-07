@@ -39,25 +39,21 @@ class move:
 		else:
 			print("Sorry! You cannot move outside the board.")
 
-
-
-
 	def down():
 		'''
-		x is constant, y is svariable
+		x is constant, y is variable
 		'''
 		if y < board_size:
 			if board[y+1][x] == 0:
 				#print("Cannot move outside the path. Make another choice.")
 			elif board[y+1][x] == 1:
-				#print("user moved up")
+				#print("user moved down")
 				user_location[1] += 1
 			elif board[y+1][x] == 2:
-				#print("user moved up")
+				#print("user moved down")
 				user_location[1] += 1
 		else:
 			print("Sorry! You cannot move outside the board.")
-
 
 	def right():
 		'''
@@ -65,6 +61,17 @@ class move:
 		we only have to consider the x coordinate
 		cause y is constant
 		'''
+		if x < board_size:
+			if board[y][x+1] == 0:
+				#print("Cannot move outside the path. Make another choice.")
+			elif board[y][x+1] == 1:
+				#print("user moved right")
+				user_location[0] += 1
+			elif board[y][x+1] == 2:
+				#print("user moved right")
+				user_location[0] += 1
+		else:
+			print("Sorry! You cannot move outside the board.")
 
 
 
@@ -72,6 +79,17 @@ class move:
 		'''
 		y is constant, x is variable
 		'''
+		if x <= board_size and x != 0:
+			if board[y][x-1] == 0:
+				#print("Cannot move outside the path. Make another choice.")
+			elif board[y][x-1] == 1:
+				#print("user moved left")
+				user_location[0] -= 1
+			elif board[y][x-1] == 2:
+				#print("user moved left")
+				user_location[0] -= 1
+		else:
+			print("Sorry! You cannot move outside the board.")
 
 	def choice():
 		'''
@@ -88,8 +106,9 @@ class move:
 			move.right()
 		elif user_choice == "left" or user_choice == "l":
 			move.left()
+		#For when the user enters anything other than our predefined commands.
 		else:
-			print("You have made an invalid move. Please try again")
+			print("You have made an invalid move. Please try again.\n")
 			move.choice() #Wrong choices are excluded from the max move counter.
 
 	
