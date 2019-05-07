@@ -1,10 +1,10 @@
 # Adventure game
 
 
-#The board or the list that represent the board.
+#The board is represented as a nested list.
 board = []
 '''
-board = [[1,0,0,0],[0,1,0,0],[0,1,0,0],[2,1,1,1]] >> blank board
+board = [[1,0,0,0],[0,1,0,0],[0,1,0,0],[2,1,1,1]] >> board in nested list.
 board[y] is the y coordinate.
 board[y][x] is the x coordinate.
 
@@ -132,6 +132,7 @@ class result:
 	def check():
 		if board[y][x] == 2:
 			result.show()
+			
 
 	def show():
 		print("Congratulations! You Won!")
@@ -142,3 +143,14 @@ class result:
 			name = input("Enter your name: ").capitalize()
 			fout.write(f"{name} , score: {}")  #Maybe use the step of the for loop to formulate the score?
 		'''
+
+
+def main():
+	for i in range(20):
+		move.choice()
+		result.check()
+		print(f"You got {i} chances left!")
+
+
+if __name__ == "__main__":
+	main()
