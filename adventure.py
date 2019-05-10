@@ -36,11 +36,10 @@ class move:
 		we only have to consider the y coordinate
 		cause x is constant
 		'''	
-		if y <= board_size and y != o:
+		if y <= board_size and y != 0:
 			if board[y-1][x] == 0:
-				#print("Cannot move outside the path. Make another choice.")
-			elif(board[y-1][x] == 1):
-
+				print("Cannot move outside the path. Make another choice.")
+			elif board[y-1][x] == 1:
 				#print("user moved up")
 				user_location[1] -= 1
 			
@@ -59,6 +58,7 @@ class move:
 		
 		if y < board_size:
 			if board[y+1][x] == 0:
+				pass
 				#print("Cannot move outside the path. Make another choice.")
 			elif board[y+1][x] == 1:
 				#print("user moved down")
@@ -78,6 +78,7 @@ class move:
 		'''
 		if x < board_size:
 			if board[y][x+1] == 0:
+				pass
 				#print("Cannot move outside the path. Make another choice.")
 			elif board[y][x+1] == 1:
 		
@@ -96,6 +97,7 @@ class move:
 		'''
 		if x <= board_size and x != 0:
 			if board[y][x-1] == 0:
+				pass
 				#print("Cannot move outside the path. Make another choice.")
 			elif board[y][x-1] == 1:
 				#print("user moved left")
@@ -145,12 +147,12 @@ class result:
 		'''
 
 
-def main():
+def game():
 	for i in range(20):
 		move.choice()
 		result.check()
 		print(f"You got {i} chances left!")
 
 
-if __name__ == "__main__":
-	main()
+#if __name__ == "__main__":
+game()
