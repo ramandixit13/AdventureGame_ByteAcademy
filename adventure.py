@@ -1,15 +1,16 @@
+import copy
 # Adventure game
 
 
 #The board is represented as a nested list.
-board = []
+board = [[1,0,0,0],[1,1,0,0],[0,1,0,0],[2,1,1,1]]
 '''
 board = [[1,0,0,0],[0,1,0,0],[0,1,0,0],[2,1,1,1]] >> board in nested list.
 board[y] is the y coordinate.
 board[y][x] is the x coordinate.
 
 0[1,0,0,0]
-1[0,1,0,0]
+1[1,1,0,0]
 2[0,1,0,0]
 3[2,1,1,1]
   0 1 2 3
@@ -38,19 +39,27 @@ class User:
 	'''
 	def move(self, direction):
 		if direction == 'up':
-			new_pos = (self.pos_x, self.pos_y + 1)
+			new_x = self.pos_x
+			new_y = self.pos_y - 1
+
 		elif direction == 'down':
-			new_pos = (self.pos_x,self.pos_y -1)
+			new_x = self.pos_x
+			new_y = self.pos_y + 1
 		elif direction == 'right':
-			new_pos = (self.pos_x + 1,self.pos_y)
+			new_x = self.pos_x + 1
+			new_y = self.pos_y
 		elif direction == 'left':
-			new_pos = (self.pos_x - 1,self.pos_y)
-		
-		
-		if check_pos(new_pos)[0]: # Checking if the first output of the function is True i.e. the move is valid
-			self.position = new_pos
-		elif not check_pos(new_pos)[0]: # Checking if the first output of the fuction is False i.e. the move isn't valid
-			print(check_pos(new_pos)[1])
+			new_x = self.pos_x - 1
+			new_y = self.pos_y
+
+		if check_pos(new_x,new_y)[0]: # Checking if the first output of the function is True i.e. the move is valid
+			print(f"Moving to ({new_x},{new_y})...")
+			self.position = (new_x,new_y)
+			self.pos_x = new_x
+			self.pos_y = new_y
+			print(f"Your current position is {self.position}")
+		elif not check_pos(new_x,new_y)[0]: # Checking if the first output of the fuction is False i.e. the move isn't valid
+			print(check_pos(new_x,new_y)[1])
 				
 
 '''
@@ -64,40 +73,73 @@ def check_pos(*coordinates):
 	y = coordinates[1]
 	if board[y][x] == 0:
 		return False, "Cannot move outside the path. Make another choice."
-	if y > board_size or x > board_size:
+	if y > board_size or x > board_size or y < 0 or x < 0:
 		return False, "Sorry! You cannot move outside the board."
 	if board[y][x] == 1:
 		return True, "On path"
 	if board[y][x] == 2:
 		return True, "In room"	
 
+def move():
+	choice = input("Please select a move (up, down, left or right)")
+	if choice not in ["up","down","left",'right']:
+		return False
+	else:
+		return choice	
+
 user = User("legend")
 
-class result:
 
-	def check():
-		if board[y][x] == 2:
-			result.show()
+
+# class result:
+
+# 	def check():
+# 		if board[y][x] == 2:
+# 			result.show()
 			
 
-	def show():
-		print("Congratulations! You Won!")
-		break
-		'''
-		#Adding the name  in leaderboard.
-		with open('leaderboard.txt', 'a') as fout:
-			name = input("Enter your name: ").capitalize()
-			fout.write(f"{name} , score: {}")  #Maybe use the step of the for loop to formulate the score?
-		'''
-
+# 	def show():
+# 		print("Congratulations! You Won!")
+# 		break
+# 		'''
+# 		#Adding the name  in leaderboard.
+# 		with open('leaderboard.txt', 'a') as fout:
+# 			name = input("Enter your name: ").capitalize()
+# 			fout.write(f"{name} , score: {}")  #Maybe use the step of the for loop to formulate the score?
+# 		'''
+def printing_board(board, user):
+	new_board = copy.deepcopy(board)
+	new_board[user.pos_y][user.pos_x] = "X"
+	[print(i) for i in new_board]
 
 def game():
-	for i in range(20):	
-		choose = input("Please select a move (up, down, left or right)")
+	i = 1
+	while i > 0:
+		print("Here's the board:")
+		printing_board(board,user)
+		choose = move()
+		if not choose:
+			print("Pick a valid choice.")
+			print(f"You've gone through {i} chances")
+			i+=1
+			continue
 		user.move(choose)
-		result.check()
-		print(f"You got {i} chances left!")
+		print(f"You've gone through {i} turns")
+		if check_pos(user.pos_x,user.pos_y)[0]:
+			if check_pos(user.pos_x,user.pos_y)[1] == "In room":
+				print("Congratulations! You found the room, you win!")
+				break
+		i+=1
+
+	
+
+		# if not move():
+		# 	print("Choose a valid move.")
+		# 	continue
+		# user.move(choose)
+		# result.check()
+		
 
 
-#if __name__ == "__main__":
-game()
+# if __name__ == "__main__":
+game()	
