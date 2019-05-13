@@ -1,15 +1,17 @@
+#!/usr/bin/env python3
+import copy
 # Adventure game
 
 
 #The board is represented as a nested list.
-board = []
+board = [[1,0,0,0],[1,1,0,0],[0,1,0,0],[2,1,1,1]]
 '''
 board = [[1,0,0,0],[0,1,0,0],[0,1,0,0],[2,1,1,1]] >> board in nested list.
 board[y] is the y coordinate.
 board[y][x] is the x coordinate.
 
 0[1,0,0,0]
-1[0,1,0,0]
+1[1,1,0,0]
 2[0,1,0,0]
 3[2,1,1,1]
   0 1 2 3
@@ -19,140 +21,126 @@ board[y][x] is the x coordinate.
 grid_size = 4
 board_size = grid_size - 1
 
-#This stores the current coordinates of the user. It is 0,0 by default.
-#user_location = ['x', 'y'] >> Syntax
-user_location = [0,0]
-x = user_location[0]
-y = user_location[1]
+'''
+Create a user class with the ability to move in a direction
+'''
+class User:
+	'''
+	Initializing user class with a username and position
+	'''
+	def __init__(self,username):
+		self.username = username
+		self.position = (0,0)
+		self.pos_x = self.position[0]
+		self.pos_y = self.position[1]
+
+	'''
+	Each user can move in a certain direction. Currently, this implementation 
+	supports only movement by one coordinate
+	'''
+	def move(self, direction):
+		if direction == 'up':
+			new_x = self.pos_x
+			new_y = self.pos_y - 1
+
+		elif direction == 'down':
+			new_x = self.pos_x
+			new_y = self.pos_y + 1
+		elif direction == 'right':
+			new_x = self.pos_x + 1
+			new_y = self.pos_y
+		elif direction == 'left':
+			new_x = self.pos_x - 1
+			new_y = self.pos_y
+
+		if check_pos(new_x,new_y)[0]: # Checking if the first output of the function is True i.e. the move is valid
+			print(f"Moving to ({new_x},{new_y})...")
+			self.position = (new_x,new_y)
+			self.pos_x = new_x
+			self.pos_y = new_y
+			print(f"Your current position is {self.position}")
+		elif not check_pos(new_x,new_y)[0]: # Checking if the first output of the fuction is False i.e. the move isn't valid
+			print(check_pos(new_x,new_y)[1])
+				
+
+'''
+This function checks if the users move is valid.
+It returns two outputs, one being a boolean stating
+if the move is True/False and another detailing the 
+descriptive comment for the move
+'''
+def check_pos(*coordinates):
+	x = coordinates[0]
+	y = coordinates[1]
+	if board[y][x] == 0:
+		return False, "Cannot move outside the path. Make another choice."
+	if y > board_size or x > board_size or y < 0 or x < 0:
+		return False, "Sorry! You cannot move outside the board."
+	if board[y][x] == 1:
+		return True, "On path"
+	if board[y][x] == 2:
+		return True, "In room"	
+
+def move():
+	choice = input("Please select a move (up, down, left or right)")
+	if choice not in ["up","down","left",'right']:
+		return False
+	else:
+		return choice	
+
+user = User("legend")
 
 
 
+# class result:
 
-class move:
-
-	def up():
-		'''
-		since the user is only moving upward, 
-		we only have to consider the y coordinate
-		cause x is constant
-		'''	
-		if y <= board_size and y != 0:
-			if board[y-1][x] == 0:
-				print("Cannot move outside the path. Make another choice.")
-			elif board[y-1][x] == 1:
-				#print("user moved up")
-				user_location[1] -= 1
-			
-			elif board[y-1][x] == 2:
-				#print("user moved up")
-				user_location[1] -= 1
-		
-		else:
-			print("Sorry! You cannot move outside the board.")
-			move.choice()
-
-	def down():
-		'''
-		x is constant, y is variable
-		'''
-		
-		if y < board_size:
-			if board[y+1][x] == 0:
-				pass
-				#print("Cannot move outside the path. Make another choice.")
-			elif board[y+1][x] == 1:
-				#print("user moved down")
-				user_location[1] += 1
-			elif board[y+1][x] == 2:
-				#print("user moved down")
-				user_location[1] += 1
-		else:
-			print("Sorry! You cannot move outside the board.")
-			move.choice()
-
-	def right():
-		'''		
-		since the user is only moving right, 
-		we only have to consider the x coordinate
-		cause y is constant
-		'''
-		if x < board_size:
-			if board[y][x+1] == 0:
-				pass
-				#print("Cannot move outside the path. Make another choice.")
-			elif board[y][x+1] == 1:
-		
-				#print("user moved right")
-				user_location[0] += 1
-			elif board[y][x+1] == 2:
-				#print("user moved right")
-				user_location[0] += 1
-		else:
-			print("Sorry! You cannot move outside the board.")
-			move.choice()
-
-	def left():
-		'''
-		y is constant, x is variable
-		'''
-		if x <= board_size and x != 0:
-			if board[y][x-1] == 0:
-				pass
-				#print("Cannot move outside the path. Make another choice.")
-			elif board[y][x-1] == 1:
-				#print("user moved left")
-				user_location[0] -= 1
-			elif board[y][x-1] == 2:
-				#print("user moved left")
-				user_location[0] -= 1
-		else:
-			print("Sorry! You cannot move outside the board.")
-			move.choice()
-
-	def choice():
-		'''
-		this function asks the user to make a choice and 
-		calls the necessary functions to make the move
-		'''
-		user_choice = str(input("Where do you want to move next?"))
-		
-		if user_choice == "up" or user_choice == "u":
-			move.up()
-		elif user_choice == "down" or user_choice == "d":
-			move.down()
-		elif user_choice == "right" or user_choice == "r":
-			move.right()
-		elif user_choice == "left" or user_choice == "l":
-			move.left()
-		#For when the user enters anything other than our predefined commands.
-		else:
-			print("You have made an invalid move. Please try again.\n")
-			move.choice() #Wrong choices are excluded from the max move counter.
-
-class result:
-
-	def check():
-		if board[y][x] == 2:
-			result.show()
+# 	def check():
+# 		if board[y][x] == 2:
+# 			result.show()
 			
 
-	def show():
-		print("Congratulations! You Won!")
-		break
-		'''
-		#Adding the name  in leaderboard.
-		with open('leaderboard.txt', 'a') as fout:
-			name = input("Enter your name: ").capitalize()
-			fout.write(f"{name} , score: {}")  #Maybe use the step of the for loop to formulate the score?
-		'''
-
+# 	def show():
+# 		print("Congratulations! You Won!")
+# 		break
+# 		'''
+# 		#Adding the name  in leaderboard.
+# 		with open('leaderboard.txt', 'a') as fout:
+# 			name = input("Enter your name: ").capitalize()
+# 			fout.write(f"{name} , score: {}")  #Maybe use the step of the for loop to formulate the score?
+# 		'''
+def printing_board(board, user):
+	new_board = copy.deepcopy(board)
+	new_board[user.pos_y][user.pos_x] = "X"
+	[print(i) for i in new_board]
 
 def game():
-	for i in range(20):
-		move.choice()
-		result.check()
-		print(f"You got {i} chances left!")
+	i = 1
+	while i > 0:
+		print("Here's the board:")
+		printing_board(board,user)
+		choose = move()
+		if not choose:
+			print("Pick a valid choice.")
+			print(f"You've gone through {i} chances")
+			i+=1
+			continue
+		user.move(choose)
+		print(f"You've gone through {i} turns")
+		if check_pos(user.pos_x,user.pos_y)[0]:
+			if check_pos(user.pos_x,user.pos_y)[1] == "In room":
+				print("Congratulations! You found the room, you win!")
+				break
+		i+=1
+
+	
+
+		# if not move():
+		# 	print("Choose a valid move.")
+		# 	continue
+		# user.move(choose)
+		# result.check()
+		
 
 
-#if __name__ == "__main__":
-game()
+# if __name__ == "__main__":
+game()	
