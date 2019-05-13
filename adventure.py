@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import copy
+import time
 # Adventure game
 
 
@@ -82,7 +83,7 @@ def check_pos(*coordinates):
 		return True, "In room"	
 
 def move():
-	choice = input("Please select a move (up, down, left or right)")
+	choice = input("Please select a move (up, down, left or right)\n")
 	if choice not in ["up","down","left",'right']:
 		return False
 	else:
@@ -114,12 +115,17 @@ def printing_board(board, user):
 	[print(i) for i in new_board]
 
 # Prince
-def run_rpg():
+def run_rpg(time_limit):
+	print("You have {} seconds for this level".format(time_limit))
+	t_end = time.time() + time_limit
 	i = 1
 	while i > 0:
 		print("Here's the board:")
 		printing_board(board,user)
 		choose = move()
+		if time.time() > t_end:
+			print("Oops, u just ran out of time, ur last move doesn't count :(")
+			return 0 
 		if not choose:
 			print("Pick a valid choice.")
 			print(f"You've gone through {i} chances")
@@ -130,7 +136,7 @@ def run_rpg():
 		if check_pos(user.pos_x,user.pos_y)[0]:
 			if check_pos(user.pos_x,user.pos_y)[1] == "In room":
 				print("Congratulations! You found the room, you win!")
-				calc_score()
+				#calc_score(num_gem,t_end-time.time,difficulty)
 				break
 		i+=1
 
@@ -157,7 +163,7 @@ def Login():
 def leaderboard():
 	pass
 
-def game():
+def game(time_limit):
 	Login()
 	print("Thank you for logging in User X")
 	print("Your top score is xxx")
@@ -181,7 +187,7 @@ What would you like to do?
 			leaderboard()
 			continue
 		if game_action == 'p':
-			run_rpg()
+			run_rpg(time_limit)
 
 
 			
@@ -190,4 +196,5 @@ What would you like to do?
 
 
 # if __name__ == "__main__":
-game()	
+time_limit = 50
+game(time_limit)	
