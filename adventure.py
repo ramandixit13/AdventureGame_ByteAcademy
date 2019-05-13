@@ -140,7 +140,7 @@ def calc_score(num_gem,time_remain,difficulty):
 	returns None
 	Effects: prints the score calculated based on num_gem,time_remain (in seconds)
 	and difficulty by num_gem * (100 + time_remain +  2 * difficulty)
-	score: Int Int Int -> Float
+	score: Int Int Int -> Int
 	requires: num_gem,time_remain >= 0
 		  difficulty >= 1
 	Examples:
