@@ -113,7 +113,8 @@ def printing_board(board, user):
 	new_board[user.pos_y][user.pos_x] = "X"
 	[print(i) for i in new_board]
 
-def game():
+# Prince
+def run_rpg():
 	i = 1
 	while i > 0:
 		print("Here's the board:")
@@ -129,17 +130,54 @@ def game():
 		if check_pos(user.pos_x,user.pos_y)[0]:
 			if check_pos(user.pos_x,user.pos_y)[1] == "In room":
 				print("Congratulations! You found the room, you win!")
+				calc_score()
 				break
 		i+=1
 
-	
 
-		# if not move():
-		# 	print("Choose a valid move.")
-		# 	continue
-		# user.move(choose)
-		# result.check()
-		
+def calc_score():
+	print("Now calculating your score....")
+	print("Your score is....")
+	pass
+
+# Ruchir
+def Login():
+	pass
+
+# Raman
+def leaderboard():
+	pass
+
+def game():
+	Login()
+	print("Thank you for logging in User X")
+	print("Your top score is xxx")
+	i = True
+	while i:
+		game_action = input(
+'''
+What would you like to do?
+	p: play
+	l: leaderboard
+	q: quit
+''')
+		if game_action not in ['p','l','q']:
+			print("Please enter a valid option")
+			continue
+		if game_action == 'q':
+			print("Leaving the game now. Good bye.")
+			break
+		if game_action == 'l':
+			print("Printing leaderboard...")
+			leaderboard()
+			continue
+		if game_action == 'p':
+			run_rpg()
+
+
+			
+
+
 
 
 # if __name__ == "__main__":
