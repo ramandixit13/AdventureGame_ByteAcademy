@@ -135,10 +135,19 @@ def run_rpg():
 		i+=1
 
 
-def calc_score():
-	print("Now calculating your score....")
-	print("Your score is....")
-	pass
+def calc_score(num_gem,time_remain,difficulty):
+	'''
+	returns None
+	Effects: prints the score calculated based on num_gem,time_remain (in seconds)
+	and difficulty by num_gem * (100 + time_remain +  2 * difficulty)
+	score: Int Int Int -> Float
+	requires: num_gem,time_remain >= 0
+		  difficulty >= 1
+	Examples:
+	calc_score(4,20,1) => 488
+	calc_score(5,0,23) => 730
+	'''
+	print("Your score is:",num_gem * (100 + time_remain + 2 * difficulty))
 
 # Ruchir
 def Login():
