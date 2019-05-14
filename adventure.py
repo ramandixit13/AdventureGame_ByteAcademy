@@ -136,7 +136,7 @@ def run_rpg(difficulty):
 			i+=1
 			continue
 		user.move(choose)
-		print(f"You've gone through {i} turns")
+		print(f"You've gone through {i} chances")
 		if check_pos(user.pos_x,user.pos_y)[0]:
 			if check_pos(user.pos_x,user.pos_y)[1] == "In room":
 				print("Congratulations! You found the room, you win!")
