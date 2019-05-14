@@ -192,6 +192,7 @@ What would you like to do?
 			continue
 		elif game_action == 'p':
 			difficulty = 1
+			print("This is level",difficulty)
 			run_rpg(difficulty)
 
 
