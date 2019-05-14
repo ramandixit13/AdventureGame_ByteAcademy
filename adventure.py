@@ -3,8 +3,8 @@ import copy
 import time
 # Adventure game
 
-# difficulty level (index + 1) and the corresponding time limit stored as a list
-dt = [90,80,70,65]
+# difficulty level and the corresponding time limit in seconds stored as a dictionary
+dt = {"easy":90,"medium":80,"hard":70}
 
 #The board is represented as a nested list.
 board = [[1,0,0,0],[1,1,0,0],[0,1,0,0],[2,1,1,1]]
@@ -119,7 +119,7 @@ def printing_board(board, user):
 # Prince
 	print("You have {} seconds for this level".format(time_limit))
 def run_rpg(difficulty):
-	time_limit = dt[difficulty-1] 
+	time_limit = dt[difficulty] # Access corresponding time limit of difficulty 
 	print("You have {} seconds for this level".format(time_limit)) # prints time limit
 	t_end = time.time() + time_limit # absolute time when function ends
 	i = 1
@@ -150,12 +150,14 @@ def calc_score(num_gem,time_remain,difficulty):
 	returns None
 	Effects: prints the score calculated based on num_gem,time_remain (in seconds)
 	and difficulty by num_gem * (100 + time_remain +  2 * difficulty)
-	score: Int Int Int -> Int
+	score: Int Int Int -> None
 	requires: num_gem,time_remain >= 0
 		  difficulty >= 1
 	Examples:
-	calc_score(4,20,1) => 488
-	calc_score(5,0,23) => 730
+	calc_score(4,20,1) => None 
+	prints 488 on the screen
+	calc_score(5,0,23) => None
+	prints 730 on the screen
 	'''
 	print("Your score is:",num_gem * (100 + time_remain + 2 * difficulty))
 
@@ -191,8 +193,8 @@ What would you like to do?
 			leaderboard()
 			continue
 		elif game_action == 'p':
-			difficulty = 1
-			print("This is level",difficulty)
+			difficulty = "easy" # This line has to be changed after we can loop through difficulty levels
+			print("This is the {} level".format(difficulty))
 			run_rpg(difficulty)
 
 
