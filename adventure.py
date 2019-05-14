@@ -3,6 +3,8 @@ import copy
 import time
 # Adventure game
 
+# difficulty level (index + 1) and the corresponding time limit stored as a list
+dt = [90,80,70,65]
 
 #The board is represented as a nested list.
 board = [[1,0,0,0],[1,1,0,0],[0,1,0,0],[2,1,1,1]]
@@ -115,17 +117,19 @@ def printing_board(board, user):
 	[print(i) for i in new_board]
 
 # Prince
-def run_rpg(time_limit):
 	print("You have {} seconds for this level".format(time_limit))
-	t_end = time.time() + time_limit
+def run_rpg(difficulty):
+	time_limit = dt[difficulty-1] 
+	print("You have {} seconds for this level".format(time_limit)) # prints time limit
+	t_end = time.time() + time_limit # absolute time when function ends
 	i = 1
 	while i > 0:
 		print("Here's the board:")
 		printing_board(board,user)
 		choose = move()
-		if time.time() > t_end:
-			print("Oops, u just ran out of time, ur last move doesn't count :(")
-			return 0 
+		if time.time() > t_end: # if time_limit is reached
+			print("Oops, u just ran out of time, ur last input doesn't count :(")
+			break
 		if not choose:
 			print("Pick a valid choice.")
 			print(f"You've gone through {i} chances")
@@ -136,9 +140,9 @@ def run_rpg(time_limit):
 		if check_pos(user.pos_x,user.pos_y)[0]:
 			if check_pos(user.pos_x,user.pos_y)[1] == "In room":
 				print("Congratulations! You found the room, you win!")
-				#calc_score(num_gem,t_end-time.time,difficulty)
 				break
 		i+=1
+	#calc_score(num_gem,t_end-time.time,difficulty) # calculates and prints the score as soon as game over
 
 
 def calc_score(num_gem,time_remain,difficulty):
@@ -163,7 +167,7 @@ def Login():
 def leaderboard():
 	pass
 
-def game(time_limit):
+def game():
 	Login()
 	print("Thank you for logging in User X")
 	print("Your top score is xxx")
@@ -179,15 +183,16 @@ What would you like to do?
 		if game_action not in ['p','l','q']:
 			print("Please enter a valid option")
 			continue
-		if game_action == 'q':
+		elif game_action == 'q':
 			print("Leaving the game now. Good bye.")
 			break
-		if game_action == 'l':
+		elif game_action == 'l':
 			print("Printing leaderboard...")
 			leaderboard()
 			continue
-		if game_action == 'p':
-			run_rpg(time_limit)
+		elif game_action == 'p':
+			difficulty = 1
+			run_rpg(difficulty)
 
 
 			
@@ -196,5 +201,4 @@ What would you like to do?
 
 
 # if __name__ == "__main__":
-time_limit = 50
-game(time_limit)	
+game()	
